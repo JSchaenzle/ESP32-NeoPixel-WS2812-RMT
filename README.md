@@ -1,4 +1,4 @@
-# ESP32-neopixel-WS2812-RMT
+# ESP32-NeoPixel-WS2812-RMT
 NeoPixel (WS2812) Driver Example code using RMT peripheral
 
 This project contains example code for driving a chain of NeoPixels connected to an ESP32 using the RMT peripheral build into the micro.
