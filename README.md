@@ -14,7 +14,16 @@ This code assumes you are using FreeRTOS.
 Because of the way the ESP32 RMT peripheral works this technique for driving NeoPixels is a little heavy on memory usage. It requires (4 bytes * 24 * NUM_LEDS) of dedicated memory.
 
 ## Usage
+Copy the source and header files into your project. Update the following defines based on your project needs / arrangement. 
+- NUM_LEDS
+- LED_RMT_TX_CHANNEL
+- LED_RMT_TX_GPIO
 
 In your application init section call `void ws2812_control_init(void)` to initialize the RMT peripheral with the correct configuration.
 
 Whenever you need to update the LEDs simply call `void ws2812_write_leds(struct led_state new_state)`. The `led_state` structure just contains an array of 32-bit integers - one for each LED - that you must set to the desired RGB values. The bottom three bytes of each value are R, G and B.
+
+## Contribution
+If you find a problem or have ideas about how to improve this please submit a PR and I will happily review and merge. Thanks!
+
+Enjoy!

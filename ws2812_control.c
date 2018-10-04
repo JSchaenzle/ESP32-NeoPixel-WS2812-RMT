@@ -1,7 +1,11 @@
 #include "ws2812_control.h"
 #include "driver/rmt.h"
 
+// Configure these based on your project needs ********
 #define LED_RMT_TX_CHANNEL RMT_CHANNEL_0
+#define LED_RMT_TX_GPIO 18
+// ****************************************************
+
 #define BITS_PER_LED_CMD 24 
 #define LED_BUFFER_ITEMS ((NUM_LEDS * BITS_PER_LED_CMD))
 
