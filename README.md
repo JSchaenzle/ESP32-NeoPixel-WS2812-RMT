@@ -23,6 +23,34 @@ In your application init section call `void ws2812_control_init(void)` to initia
 
 Whenever you need to update the LEDs simply call `void ws2812_write_leds(struct led_state new_state)`. The `led_state` structure just contains an array of 32-bit integers - one for each LED - that you must set to the desired RGB values. The bottom three bytes of each value are R, G and B.
 
+### Example
+```c
+#define NUM_LEDS 3
+#include "ws2812_control.h"
+
+#define GREEN 0xFF0000
+#define GREEN 0x00FF00
+#define BLUE  0x0000FF
+
+int main(void) {
+  ws2812_control_init();
+
+  struct led_state new_state;
+  new_state.leds[0] = RED;
+  new_state.leds[1] = GREEN;
+  new_state.leds[2] = BLUE;
+
+  ws2812_write_leds(new_state);
+}
+```
+
+
+### Timing
+This code is tuned based on the timing specifications indicated in the following datasheet provided by Sparkfun: https://cdn.sparkfun.com/datasheets/Components/LED/COM-12877.pdf
+
+I'm pretty sure there are variations of the NeoPixel out there that have different timing requirements to you may have to tweak the code accordingly.
+
+
 ## Contribution
 If you find a problem or have ideas about how to improve this please submit a PR and I will happily review and merge. Thanks!
 
