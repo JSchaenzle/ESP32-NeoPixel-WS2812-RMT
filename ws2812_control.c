@@ -19,7 +19,7 @@ rmt_item32_t led_data_buffer[LED_BUFFER_ITEMS];
 
 void setup_rmt_data_buffer(struct led_state new_state);
 
-void led_control_hw_init(void)
+void ws2812_control_init(void)
 {
   rmt_config_t config;
   config.rmt_mode = RMT_MODE_TX;
@@ -36,7 +36,7 @@ void led_control_hw_init(void)
   ESP_ERROR_CHECK(rmt_driver_install(config.channel, 0, 0));
 }
 
-void led_control_hw_write_leds(struct led_state new_state) {
+void ws2812_write_leds(struct led_state new_state) {
   setup_rmt_data_buffer(new_state);
   ESP_ERROR_CHECK(rmt_write_items(LED_RMT_TX_CHANNEL, led_data_buffer, LED_BUFFER_ITEMS, false));
   ESP_ERROR_CHECK(rmt_wait_tx_done(LED_RMT_TX_CHANNEL, portMAX_DELAY));
