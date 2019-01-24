@@ -28,7 +28,7 @@ Whenever you need to update the LEDs simply call `void ws2812_write_leds(struct 
 #define NUM_LEDS 3
 #include "ws2812_control.h"
 
-#define GREEN 0xFF0000
+#define RED   0xFF0000
 #define GREEN 0x00FF00
 #define BLUE  0x0000FF
 
