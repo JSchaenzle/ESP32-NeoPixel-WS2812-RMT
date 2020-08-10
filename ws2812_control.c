@@ -10,9 +10,9 @@
 #define LED_BUFFER_ITEMS ((NUM_LEDS * BITS_PER_LED_CMD))
 
 // These values are determined by measuring pulse timing with logic analyzer and adjusting to match datasheet. 
-#define T0H 14  // 0 bit high time
-#define T1H 52  // 1 bit high time
-#define TL  52  // low time for either bit
+#define T0H 30  // 0 bit high time
+#define T1H 60  // 1 bit high time
+#define TL  60  // low time for either bit
 
 // This is the buffer which the hw peripheral will access while pulsing the output pin
 rmt_item32_t led_data_buffer[LED_BUFFER_ITEMS];
@@ -30,9 +30,10 @@ void ws2812_control_init(void)
   config.tx_config.carrier_en = false;
   config.tx_config.idle_output_en = true;
   config.tx_config.idle_level = 0;
-  config.clk_div = 2;
+  config.clk_div = 1;
 
   ESP_ERROR_CHECK(rmt_config(&config));
+  ESP_ERROR_CHECK(rmt_set_source_clk(LED_RMT_TX_CHANNEL, RMT_BASECLK_APB)); //Uses 80MHz APB clock source instead of 1MHz REF standard clock 
   ESP_ERROR_CHECK(rmt_driver_install(config.channel, 0, 0));
 }
 
