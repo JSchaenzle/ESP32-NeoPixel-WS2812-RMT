@@ -1,18 +1,22 @@
 #include "ws2812_control.h"
 #include "driver/rmt.h"
 
-// Configure these based on your project needs ********
-#define LED_RMT_TX_CHANNEL RMT_CHANNEL_0
-#define LED_RMT_TX_GPIO 18
+// Configure these based on your project needs using menuconfig ********
+#define LED_RMT_TX_CHANNEL			CONFIG_WS2812_LED_RMT_TX_CHANNEL
+#define LED_RMT_TX_GPIO			CONFIG_WS2812_LED_RMT_TX_GPIO
 // ****************************************************
 
 #define BITS_PER_LED_CMD 24 
 #define LED_BUFFER_ITEMS ((NUM_LEDS * BITS_PER_LED_CMD))
 
 // These values are determined by measuring pulse timing with logic analyzer and adjusting to match datasheet. 
-#define T0H 14  // 0 bit high time
-#define T1H 52  // 1 bit high time
-#define TL  52  // low time for either bit
+//#define T0H 14  // 0 bit high time
+//#define T1H 52  // 1 bit high time
+//#define TL  52  // low time for either bit
+#define T0H CONFIG_WS2812_T0H  // 0 bit high time
+#define T1H CONFIG_WS2812_T1H  // 1 bit high time
+#define TL  CONFIG_WS2812_TL  // low time for either bit
+
 
 // This is the buffer which the hw peripheral will access while pulsing the output pin
 rmt_item32_t led_data_buffer[LED_BUFFER_ITEMS];

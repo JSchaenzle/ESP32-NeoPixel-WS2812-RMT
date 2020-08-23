@@ -1,0 +1,39 @@
+menu "ESP32-NeoPixel-WS2812-RMT Configuration"
+
+config WS2812_NUM_LEDS
+    int "Number of LEDs in the WS2812 strip."
+    default 8
+    help
+	Specify the number of LEDs that will be controlled through the component. Keep in mind that for every LED in the strip an RGB value needs to be stored in a buffer.
+
+config WS2812_LED_RMT_TX_CHANNEL
+	int "RMT Channel that will be used to modulate the signal."
+	default 0
+	help
+	Defines that RMT Channel that will be used to modulate the signal. Valid values are defined by enum rmt_channel_t (0-7)
+
+config WS2812_LED_RMT_TX_GPIO
+	int "GPIO number where the WS2812 strip is connected."
+    default 18
+    help
+	Specify which GPIO should be used to send the signal. Only Output pins can be used: 0-5 or 12-33 should be ok.
+
+config WS2812_T0H
+	int "0 bit high time"
+    default 14
+    help
+	Time interval the signal should be high when a 0 bit is transmitted.
+
+config WS2812_T1H
+	int "1 bit high time"
+    default 52
+    help
+	Time interval the signal should be high when a 1 bit is transmitted.
+
+config WS2812_TL
+	int "low time for either bit"
+    default 52
+    help
+	Time interval the signal should be low followed by the high time for either bit.
+
+endmenu
