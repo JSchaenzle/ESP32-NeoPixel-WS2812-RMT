@@ -10,9 +10,6 @@
 #define LED_BUFFER_ITEMS ((NUM_LEDS * BITS_PER_LED_CMD))
 
 // These values are determined by measuring pulse timing with logic analyzer and adjusting to match datasheet. 
-//#define T0H 14  // 0 bit high time
-//#define T1H 52  // 1 bit high time
-//#define TL  52  // low time for either bit
 #define T0H CONFIG_WS2812_T0H  // 0 bit high time
 #define T1H CONFIG_WS2812_T1H  // 1 bit high time
 #define TL  CONFIG_WS2812_TL  // low time for either bit
