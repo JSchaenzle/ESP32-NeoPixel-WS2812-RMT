@@ -1,10 +1,8 @@
 #ifndef WS2812_CONTROL_H
 #define WS2812_CONTROL_H
 #include <stdint.h>
-
-#ifndef NUM_LEDS
-#define NUM_LEDS 8
-#endif
+#include "sdkconfig.h"
+#define NUM_LEDS CONFIG_WS2812_NUM_LEDS
 
 // This structure is used for indicating what the colors of each LED should be set to.
 // There is a 32bit value for each LED. Only the lower 3 bytes are used and they hold the
