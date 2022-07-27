@@ -1,5 +1,7 @@
 #include "ws2812_control.h"
 #include "driver/rmt.h"
+#include "esp_err.h"
+#include "esp_check.h"
 
 // Configure these based on your project needs using menuconfig ********
 #define LED_RMT_TX_CHANNEL			CONFIG_WS2812_LED_RMT_TX_CHANNEL
@@ -14,33 +16,40 @@
 #define T1H CONFIG_WS2812_T1H  // 1 bit high time
 #define TL  CONFIG_WS2812_TL  // low time for either bit
 
+// Tag for log messages
+static const char *TAG = "NeoPixel WS2812 Driver";
 
 // This is the buffer which the hw peripheral will access while pulsing the output pin
 rmt_item32_t led_data_buffer[LED_BUFFER_ITEMS];
 
 void setup_rmt_data_buffer(struct led_state new_state);
 
-void ws2812_control_init(void)
+esp_err_t ws2812_control_init(void)
 {
-  rmt_config_t config;
-  config.rmt_mode = RMT_MODE_TX;
-  config.channel = LED_RMT_TX_CHANNEL;
-  config.gpio_num = LED_RMT_TX_GPIO;
-  config.mem_block_num = 3;
-  config.tx_config.loop_en = false;
-  config.tx_config.carrier_en = false;
-  config.tx_config.idle_output_en = true;
-  config.tx_config.idle_level = 0;
-  config.clk_div = 2;
+  rmt_config_t config = {
+    .rmt_mode = RMT_MODE_TX,
+    .channel = LED_RMT_TX_CHANNEL,
+    .gpio_num = LED_RMT_TX_GPIO,
+    .mem_block_num = 3,
+    .tx_config.loop_en = false,
+    .tx_config.carrier_en = false,
+    .tx_config.idle_output_en = true,
+    .tx_config.idle_level = 0,
+    .clk_div = 2,
+  };
 
-  ESP_ERROR_CHECK(rmt_config(&config));
-  ESP_ERROR_CHECK(rmt_driver_install(config.channel, 0, 0));
+  ESP_RETURN_ON_ERROR(rmt_config(&config), TAG, "Failed to configure RMT");
+  ESP_RETURN_ON_ERROR(rmt_driver_install(config.channel, 0, 0), TAG, "Failed to install RMT driver");
+
+  return ESP_OK;
 }
 
-void ws2812_write_leds(struct led_state new_state) {
+esp_err_t ws2812_write_leds(struct led_state new_state) {
   setup_rmt_data_buffer(new_state);
-  ESP_ERROR_CHECK(rmt_write_items(LED_RMT_TX_CHANNEL, led_data_buffer, LED_BUFFER_ITEMS, false));
-  ESP_ERROR_CHECK(rmt_wait_tx_done(LED_RMT_TX_CHANNEL, portMAX_DELAY));
+  ESP_RETURN_ON_ERROR(rmt_write_items(LED_RMT_TX_CHANNEL, led_data_buffer, LED_BUFFER_ITEMS, false), TAG, "Failed to write items");
+  ESP_RETURN_ON_ERROR(rmt_wait_tx_done(LED_RMT_TX_CHANNEL, portMAX_DELAY), TAG, "Failed to wait for RMT transmission to finish");
+
+  return ESP_OK;
 }
 
 void setup_rmt_data_buffer(struct led_state new_state) 

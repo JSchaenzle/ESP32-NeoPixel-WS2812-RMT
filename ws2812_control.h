@@ -1,7 +1,10 @@
 #ifndef WS2812_CONTROL_H
 #define WS2812_CONTROL_H
+
 #include <stdint.h>
 #include "sdkconfig.h"
+#include "esp_err.h"
+
 #define NUM_LEDS CONFIG_WS2812_NUM_LEDS
 
 // This structure is used for indicating what the colors of each LED should be set to.
@@ -12,11 +15,11 @@ struct led_state {
 };
 
 // Setup the hardware peripheral. Only call this once.
-void ws2812_control_init(void);
+esp_err_t ws2812_control_init(void);
 
 // Update the LEDs to the new state. Call as needed.
 // This function will block the current task until the RMT peripheral is finished sending 
 // the entire sequence.
-void ws2812_write_leds(struct led_state new_state);
+esp_err_t ws2812_write_leds(struct led_state new_state);
 
 #endif
