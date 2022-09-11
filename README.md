@@ -14,10 +14,14 @@ This code assumes you are using FreeRTOS.
 Because of the way the ESP32 RMT peripheral works this technique for driving NeoPixels is a little heavy on memory usage. It requires (4 bytes * 24 * NUM_LEDS) of dedicated memory.
 
 ## Usage
-Copy the source and header files into your project. Update the following defines based on your project needs / arrangement. 
-- NUM_LEDS
-- LED_RMT_TX_CHANNEL
-- LED_RMT_TX_GPIO
+Copy the source and header files into your project. Update the following config options based on your project needs / arrangement.
+
+- CONFIG_WS2812_NUM_LEDS
+- CONFIG_WS2812_LED_RMT_TX_GPIO
+- CONFIG_WS2812_T0H  // 0 bit high time
+- CONFIG_WS2812_T1H  // 1 bit high time
+- CONFIG_WS2812_T0L  // 0 bit low time
+- CONFIG_WS2812_T1L  // 1 bit low time
 
 In your application init section call `void ws2812_control_init(void)` to initialize the RMT peripheral with the correct configuration.
 
@@ -25,14 +29,14 @@ Whenever you need to update the LEDs simply call `void ws2812_write_leds(struct 
 
 ### Example
 ```c
-#define NUM_LEDS 3
 #include "ws2812_control.h"
 
 #define RED   0xFF0000
 #define GREEN 0x00FF00
 #define BLUE  0x0000FF
 
-int main(void) {
+int main(void)
+{
   ws2812_control_init();
 
   struct led_state new_state;
@@ -44,12 +48,32 @@ int main(void) {
 }
 ```
 
-
 ### Timing
 This code is tuned based on the timing specifications indicated in the following datasheet provided by Sparkfun: https://cdn.sparkfun.com/datasheets/Components/LED/COM-12877.pdf
 
-I'm pretty sure there are variations of the NeoPixel out there that have different timing requirements to you may have to tweak the code accordingly.
+#### LED TIMINGS, per their datasheets:
 
+##### WS2811: (2.5us bit time, 400Kbps)
+    T0H: 0.5us <-- 0 bit
+    T0L: 2.0us
+    T1H: 1.2us <-- 1 bit
+    T1L: 1.3us
+    RES: 50us
+##### WS2812: (1.25us bit time, 800Kbps)
+    T0H: 0.35us <-- 0 bit
+    T0L: 0.8us
+    T1H: 0.7us <-- 1 bit
+    T1L: 0.6us
+    RES: 50us
+##### WS2812b: (1.25us bit time, 800Kbps)
+    T0H: 0.4us <-- 0 bit
+    T0L: 0.85us
+    T1H: 0.8us <-- 1 bit
+    T1L: 0.45us
+    RES: 50us
+
+If you use WiFi, you may find that it causes problems with the LEDs not being set correctly.
+You can use xTaskCreatePinnedToCore to run the thread which initializes the library (and registers the rtm_isr), to run on core 1.
 
 ## Contribution
 If you find a problem or have ideas about how to improve this please submit a PR and I will happily review and merge. Thanks!
