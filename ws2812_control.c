@@ -9,9 +9,9 @@
 // ****************************************************
 
 
-#if CONFIG_WS1812_LED_TYPE == CONFIG_WS2812_LED_TYPE_RGB
+#if CONFIG_WS2812_LED_TYPE_RGB
 #define BITS_PER_LED_CMD	24
-#elif CONFIG_WS1812_LED_TYPE == CONFIG_WS2812_LED_TYPE_RGBW
+#elif CONFIG_WS2812_LED_TYPE_RGBW
 #define BITS_PER_LED_CMD	32
 #endif
 
