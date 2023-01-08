@@ -8,7 +8,13 @@
 #define LED_RMT_TX_GPIO			CONFIG_WS2812_LED_RMT_TX_GPIO
 // ****************************************************
 
+
+#if CONFIG_WS1812_LED_TYPE == CONFIG_WS2812_LED_TYPE_RGB
 #define BITS_PER_LED_CMD	24
+#else if CONFIG_WS1812_LED_TYPE == CONFIG_WS2812_LED_TYPE_RGBW
+#define BITS_PER_LED_CMD	32
+#endif
+
 #define LED_BUFFER_ITEMS	(NUM_LEDS * BITS_PER_LED_CMD)
 
 // These values are determined by measuring pulse timing with logic analyzer and adjusting to match datasheet. 
