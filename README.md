@@ -23,7 +23,7 @@ Copy the source and header files into your project. Update the following config 
 - CONFIG_WS2812_T0L  // 0 bit low time
 - CONFIG_WS2812_T1L  // 1 bit low time
 
-To calculate values for these configuration times, multiply the desired time in _seconds_ by the default clock rate in Hz and divide by 2. E.g., for 350ns (0.35μs) on an ESP32 with an 80MHz clock: 0.00000035 * 80000000 / 2 = 14
+To calculate values for these configuration times, multiply the desired time in _micro_ seconds (μs or us in data sheets) by the default clock rate in MHz and divide by 2. E.g., for 280ns (0.28μs) on an ESP32 with an 80MHz clock: 0.28 * 80 / 2 = 11.2 => 11 (rounded when needed)
 
 In your application init section call `void ws2812_control_init(void)` to initialize the RMT peripheral with the correct configuration.
 
