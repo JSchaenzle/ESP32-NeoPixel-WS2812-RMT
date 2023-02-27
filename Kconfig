@@ -30,13 +30,13 @@ config WS2812_T1H
     help
 	Time interval the signal should be high when a 1 bit is transmitted.
 
-config WS2812_T1L
+config WS2812_T0L
 	int "0 bit low time"
     default 52
     help
 	Time interval the signal should be low followed by the high time for a 0 bit.
 
-config WS2812_T0L
+config WS2812_T1L
 	int "1 bit low time"
     default 52
     help
