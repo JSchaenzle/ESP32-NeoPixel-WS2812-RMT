@@ -1,5 +1,23 @@
 menu "ESP32-NeoPixel-WS2812-RMT Configuration"
 
+choice WS1812_LED_TYPE
+	prompt "LED Type"
+	default WS2812_LED_TYPE_RGB
+	help
+		Select the type of LED that will be used. This will affect the order of the RGB values that will be sent to the LED.
+	
+	config WS2812_LED_TYPE_RGB
+		bool "RGB"
+		help
+			Select this option if the LED is of type RGB.
+
+	config WS2812_LED_TYPE_RGBW
+		bool "RGBW"
+		help
+			Select this option if the LED is of type RGBW.
+endchoice
+
+
 config WS2812_NUM_LEDS
     int "Number of LEDs in the WS2812 strip."
     default 8
