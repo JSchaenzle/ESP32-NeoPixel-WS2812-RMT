@@ -7,6 +7,10 @@
 
 #define NUM_LEDS	CONFIG_WS2812_NUM_LEDS
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // This structure is used for indicating what the colors of each LED should be set to.
 // There is a 32bit value for each LED. Only the lower 3 bytes are used and they hold the
 // Red (byte 2), Green (byte 1), and Blue (byte 0) values to be set.
@@ -22,4 +26,8 @@ esp_err_t ws2812_control_init(void);
 // the entire sequence.
 esp_err_t ws2812_write_leds(struct led_state new_state);
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
